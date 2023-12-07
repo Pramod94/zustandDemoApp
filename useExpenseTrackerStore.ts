@@ -7,12 +7,28 @@ const initialData = {
     totalAmount: 150000,
     income: 12000,
     expenses: 5000,
+    userProfile: {
+      name: 'Dev',
+      email: 'abc@test.com',
+      phone: 123456789,
+      address: {
+        street: '',
+        area: '',
+        companyDetails: {
+          name: '',
+          location: ''
+        }
+      },
+    }
 };
 
 const expenseTrackerStore = (_setData: any, _getData: any) => ({
   ...initialData,
   actions: {
-    updateExpense: (expenseAmt: any) => _setData((store: any) => ({ expenses: store.expenses + expenseAmt }))
+    updateExpense: (expenseAmt: any) => _setData((store: any) => ({ expenses: store.expenses + expenseAmt })),
+
+    // make use of produce from immer
+    // updateUserBasicDetails: ({ name, email, phone, ...rest }) =>  
   },
 });
 
@@ -27,4 +43,6 @@ export const useExpenseAmount = () =>
 
   export const useIncomeAmount = () => useExpenseTrackerStore((store) => get(store, ['income'], 0));
 
-  export const useExpenseTrackerActions = () => useExpenseTrackerStore((store) => store.actions)
+  export const useExpenseTrackerActions = () => useExpenseTrackerStore((store) => store.actions);
+
+  export const useProfileInfo = () => useExpenseTrackerStore(store => store.userProfile);

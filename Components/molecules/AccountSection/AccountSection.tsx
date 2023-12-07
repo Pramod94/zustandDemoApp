@@ -8,7 +8,9 @@ import {
   useTotalAmout,
   useIncomeAmount,
   useExpenseTrackerActions,
+  useProfileInfo,
 } from "../../../useExpenseTrackerStore";
+import { ProfileInfo } from "../ProfileInfo";
 
 const AccountDetails = () => {
   const expenses = useExpenseAmount();
@@ -18,6 +20,8 @@ const AccountDetails = () => {
   const [expense, setExpense] = useState(0);
 
  const { updateExpense } = useExpenseTrackerActions();
+
+ const userBasicData = useProfileInfo();
 
   return (
     <VStack space={8}>
@@ -35,7 +39,11 @@ const AccountDetails = () => {
         }}
       />
       {/* <AddBtn /> */}
-      <Button onPress={() => updateExpense(expense)}>Add</Button>
+      <Button onPress={() => updateExpense(expense)}>Add</Button>/
+
+      <Box m={4}>
+        <ProfileInfo info={userBasicData} />
+      </Box>
     </VStack>
   );
 };

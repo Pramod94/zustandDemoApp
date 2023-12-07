@@ -4,6 +4,11 @@ import { AccountSection } from "./Components/molecules/AccountSection/AccountSec
 import { QueryClient, QueryClientProvider } from "react-query";
 import { GitHubDescription } from "./Components/molecules/AccountSection/GitHubStatus";
 
+
+// Create a route with dynamic ids for each section of examples
+
+// check on Redux toolkit
+
 export default function App() {
   const queryClient = new QueryClient();
   return (
