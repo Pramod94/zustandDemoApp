@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { get } from "lodash";
+import { get, update } from "lodash";
+import { produce } from 'immer';
 
 // Collect and make a note of all the libraries and way it is used 
 
@@ -8,7 +9,8 @@ const initialData = {
     income: 12000,
     expenses: 5000,
     userProfile: {
-      name: 'Dev',
+      firstName: 'Tech',
+      lastName: 'Dev',
       email: 'abc@test.com',
       phone: 123456789,
       address: {
@@ -28,11 +30,23 @@ const expenseTrackerStore = (_setData: any, _getData: any) => ({
     updateExpense: (expenseAmt: any) => _setData((store: any) => ({ expenses: store.expenses + expenseAmt })),
 
     // make use of produce from immer
-    // updateUserBasicDetails: ({ name, email, phone, ...rest }) =>  
+    updateUserBasicDetails: ({ firstName, lastName, profession, ...rest }) => {
+      _setData(produce(_getData(), draftStore => {
+
+        // update(draftStore, ["userProfile"], () => {
+        //   return {  firstName, lastName, profession, ...rest }
+        // })
+
+        // OR 
+
+         draftStore.userProfile =  {...draftStore.userProfile, firstName, lastName, profession, ...rest } 
+      }))
+    }  
   },
 });
 
 const useExpenseTrackerStore = create(expenseTrackerStore);
+
 
 export const useExpenseAmount = () =>
   useExpenseTrackerStore((store) => {
