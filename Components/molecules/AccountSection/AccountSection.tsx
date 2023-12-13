@@ -2,15 +2,12 @@ import { Box, Button, HStack, Input, VStack } from "native-base";
 import { TotalBalance } from "../../atoms/TotalBalance";
 import React, { useState } from "react";
 import { AmountOverview } from "../../atoms/AmountOverview";
-import { AddBtn } from "../../atoms/AddBtn";
 import {
   useExpenseAmount,
   useTotalAmout,
   useIncomeAmount,
   useExpenseTrackerActions,
-  useProfileInfo,
 } from "../../../useExpenseTrackerStore";
-import { ProfileInfo } from "../ProfileInfo";
 
 const AccountDetails = () => {
   const expenses = useExpenseAmount();
@@ -19,9 +16,7 @@ const AccountDetails = () => {
 
   const [expense, setExpense] = useState(0);
 
- const { updateExpense } = useExpenseTrackerActions();
-
- const userBasicData = useProfileInfo();
+  const { updateExpense } = useExpenseTrackerActions();
 
   return (
     <VStack space={8}>
@@ -40,10 +35,6 @@ const AccountDetails = () => {
       />
       {/* <AddBtn /> */}
       <Button onPress={() => updateExpense(expense)}>Add</Button>/
-
-      <Box m={4}>
-        <ProfileInfo info={userBasicData} />
-      </Box>
     </VStack>
   );
 };
