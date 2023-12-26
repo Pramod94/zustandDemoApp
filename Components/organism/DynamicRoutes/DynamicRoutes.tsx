@@ -18,6 +18,10 @@ export const DynamicRoutes = () => {
       id: "user_profile",
       text: "User Details",
     },
+    {
+      id: "all_posts",
+      text: "Posts",
+    },
   ];
 
   return (

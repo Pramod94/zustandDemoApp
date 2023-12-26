@@ -1,7 +1,7 @@
 import React from "react";
 import { NativeBaseProvider } from "native-base";
 import { AccountSection } from "./Components/molecules/AccountSection/AccountSection";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider, useQueryClient } from "react-query";
 import { GitHubDescription } from "./Components/molecules/AccountSection/GitHubStatus";
 import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
 import { DynamicRoutes } from "./Components/organism/DynamicRoutes/DynamicRoutes";
@@ -13,6 +13,7 @@ import { DynamicRoutes } from "./Components/organism/DynamicRoutes/DynamicRoutes
 // check on Redux toolkit
 
 export default function App() {
+  // query can be accessed from  const client = useQueryClient(); in the component where we access
   const queryClient = new QueryClient();
 
   return (

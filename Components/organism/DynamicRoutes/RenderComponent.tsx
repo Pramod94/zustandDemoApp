@@ -4,6 +4,7 @@ import { AccountSection } from "../../molecules/AccountSection/AccountSection";
 import { GitHubDescription } from "../../molecules/AccountSection/GitHubStatus";
 import { useProfileInfo } from "../../../useExpenseTrackerStore";
 import { ProfileInfo } from "../../molecules/ProfileInfo";
+import { AllPosts } from "../../molecules/UseQuery";
 
 export const RenderComponent = () => {
   // eleId will fetch the id from the parameter which is passed from Link
@@ -16,6 +17,7 @@ export const RenderComponent = () => {
       {eleId === "account_details" ? <AccountSection /> : null}
       {eleId === "github_details" ? <GitHubDescription /> : null}
       {eleId === "user_profile" ? <ProfileInfo info={userBasicData} /> : null}
+      {eleId === "all_posts" ? <AllPosts /> : null}
     </>
   );
 };
