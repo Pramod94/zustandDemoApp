@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { PostMethosPosts, getPosts } from "../../Api";
+import { getPosts } from "../../Api";
+import { PostComments } from "./PostComments";
+import { Box, Button, HStack, Text } from "native-base";
 
 // for more info on react query follow below doc
 
@@ -8,20 +10,62 @@ import { PostMethosPosts, getPosts } from "../../Api";
 
 export const AllPosts = () => {
   const client = useQueryClient();
-  const { isLoading, data, error } = useQuery("posts", () => getPosts);
 
-  // Instead of handling loading and error in component try to fetch from zustand store
+  const [postId, setPostId] = useState("");
+  const [page, setPage] = useState(0);
+
+  const { isLoading, data, isError } = useQuery(
+    ["posts", page],
+    () => getPosts(page),
+    {
+      staleTime: 2000,
+    }
+  );
   if (isLoading) return <div>Loading...</div>;
 
-  if (error) return <div>Error fetching doc</div>;
+  if (isError) return <div>Error fetching doc</div>;
 
   return (
     <>
       {data && (
         <div>
           <h1>Data : </h1>
+          <ul>
+            {Array.isArray(data) &&
+              data?.map((ele: any) => (
+                <li
+                  onClick={() => setPostId(ele.id)}
+                  style={{ cursor: "pointer" }}
+                >
+                  Id : {ele.id} Title : {ele.title}
+                </li>
+              ))}
+          </ul>
         </div>
       )}
+
+      <HStack justifyContent={"space-between"}>
+        <Button
+          onPress={() => setPage((prev) => prev - 1)}
+          // disabled={page === 1 ? true : false}
+          isDisabled={page === 1}
+        >
+          Previous Page
+        </Button>
+        <Box m={2} p={2} backgroundColor={"amber.700"} shadow={"9"}>
+          <Text color={"white"} fontSize={16} fontWeight={500}>
+            Current Page {page}
+          </Text>
+        </Box>
+
+        <Button
+          isDisabled={page === 10}
+          onPress={() => setPage((prev) => prev + 1)}
+        >
+          Next Page
+        </Button>
+      </HStack>
+      {postId && <PostComments postId={postId} />}
     </>
   );
 };

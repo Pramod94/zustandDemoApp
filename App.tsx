@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider, useQueryClient } from "react-query";
 import { GitHubDescription } from "./Components/molecules/AccountSection/GitHubStatus";
 import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
 import { DynamicRoutes } from "./Components/organism/DynamicRoutes/DynamicRoutes";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 // Create a route with dynamic ids for each section of examples
 
@@ -22,6 +23,7 @@ export default function App() {
         <Router>
           <DynamicRoutes />
         </Router>
+        <ReactQueryDevtools />
       </QueryClientProvider>
     </NativeBaseProvider>
   );
