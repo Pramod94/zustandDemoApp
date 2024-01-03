@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getPosts } from "../../Api";
 import { PostComments } from "./PostComments";
@@ -14,11 +14,22 @@ export const AllPosts = () => {
   const [postId, setPostId] = useState("");
   const [page, setPage] = useState(0);
 
+  useEffect(() => {
+    const nextPage = page + 1;
+    if (nextPage <= 10) {
+      // This will prefecth the data, in this case next page data is prefetched
+      // Hence giving the smooth experience to the user
+      client.prefetchQuery(["posts", nextPage], () => getPosts(nextPage));
+    }
+  }, [page, client]);
+
   const { isLoading, data, isError } = useQuery(
     ["posts", page],
     () => getPosts(page),
     {
       staleTime: 2000,
+      // This will help to keep the previous data when prefetched
+      keepPreviousData: true,
     }
   );
   if (isLoading) return <div>Loading...</div>;
