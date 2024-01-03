@@ -25,3 +25,11 @@ export const getComments = (postId: string) =>
   })
     .then((res) => res.data)
     .catch((e) => e);
+
+export const deletePost = (postId: any) =>
+  API.request({
+    url: `https://jsonplaceholder.typicode.com/postId/${postId}`,
+    method: "DELETE",
+  })
+    .then((res) => res.data)
+    .catch((e) => e);

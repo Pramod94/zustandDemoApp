@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { getPosts } from "../../Api";
+import { deletePost, getPosts } from "../../Api";
 import { PostComments } from "./PostComments";
-import { Box, Button, HStack, Text } from "native-base";
+import { Box, Button, Center, HStack, Text } from "native-base";
 
 // for more info on react query follow below doc
 
@@ -32,6 +32,17 @@ export const AllPosts = () => {
       keepPreviousData: true,
     }
   );
+
+  const {
+    mutate,
+    isError: errDeleting,
+    isSuccess: isDeleted,
+  } = useMutation({
+    mutationFn: (postNumber) => deletePost(postNumber),
+  });
+
+  // const deletePostNum = useMutation((post) => deletePost(post));
+
   if (isLoading) return <div>Loading...</div>;
 
   if (isError) return <div>Error fetching doc</div>;
@@ -76,6 +87,21 @@ export const AllPosts = () => {
           Next Page
         </Button>
       </HStack>
+      <Box m={4}>
+        <Center>
+          <Button
+            w={"20%"}
+            bgColor={"red.500"}
+            // onPress={() => deletePostNum.mutate(postId)}
+            onPress={() => mutate(postId)}
+          >
+            Delete Post
+          </Button>
+          {isDeleted && (
+            <Text color={"red.900"}>Post has(NOT) been deleted</Text>
+          )}
+        </Center>
+      </Box>
       {postId && <PostComments postId={postId} />}
     </>
   );
